@@ -49,7 +49,7 @@ yarn-error.log*
 /vendor/
 composer.lock
 
-# Generated files
+# Generated files and uploads
 /uploads/woodmart-invoices/
 *.pdf
 *.xml
@@ -75,3 +75,11 @@ temp/
 test-*.php
 phpunit.xml
 .phpunit.result.cache
+
+# WordPress specific (if needed)
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
+# Plugin specific
+.cursor/rules/woodmart-invoices.mdc
