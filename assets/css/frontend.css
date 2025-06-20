@@ -1,0 +1,136 @@
+/**
+ * WoodMart Invoices Frontend Styles
+ *
+ * @package WoodMart_Invoices
+ * @since 1.0.0
+ */
+
+/* Invoice download buttons in customer account */
+.woocommerce-MyAccount-content .woodmart-invoice-downloads {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads h4 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #0073aa;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a:hover {
+    background: #005a87;
+    color: #fff;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a.pdf-invoice {
+    background: #dc3232;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a.pdf-invoice:hover {
+    background: #c62d2d;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a.ubl-invoice {
+    background: #0073aa;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a.ubl-invoice:hover {
+    background: #005a87;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a.packing-slip {
+    background: #46b450;
+}
+
+.woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a.packing-slip:hover {
+    background: #3e9a42;
+}
+
+/* Icons for download buttons */
+.woodmart-invoice-downloads .invoice-actions a::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.woodmart-invoice-downloads .invoice-actions a.pdf-invoice::before {
+    background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>');
+}
+
+.woodmart-invoice-downloads .invoice-actions a.ubl-invoice::before {
+    background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>');
+}
+
+.woodmart-invoice-downloads .invoice-actions a.packing-slip::before {
+    background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M9,10H7V12H9V10M13,10H11V12H13V10M17,10H15V12H17V10M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"/></svg>');
+}
+
+/* Order details page styling */
+.woocommerce-order .woodmart-invoice-downloads {
+    margin: 20px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions {
+        flex-direction: column;
+    }
+
+    .woocommerce-MyAccount-content .woodmart-invoice-downloads .invoice-actions a {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+/* Loading state */
+.woodmart-invoice-downloads .invoice-actions a.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.woodmart-invoice-downloads .invoice-actions a.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

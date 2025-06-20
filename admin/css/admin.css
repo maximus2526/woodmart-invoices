@@ -1,0 +1,249 @@
+/**
+ * WoodMart Invoices Admin Styles
+ *
+ * @package WoodMart_Invoices
+ * @since 1.0.0
+ */
+
+/* Invoice actions in order edit page */
+.woodmart-invoices-actions {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+.woodmart-invoices-actions h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.woodmart-invoices-actions .button {
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.woodmart-invoices-actions .button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Settings page styling */
+.woodmart-invoices-settings .form-table th {
+    width: 200px;
+    font-weight: 600;
+}
+
+.woodmart-invoices-settings .form-table input[type="text"],
+.woodmart-invoices-settings .form-table input[type="email"],
+.woodmart-invoices-settings .form-table textarea {
+    width: 100%;
+    max-width: 400px;
+}
+
+.woodmart-invoices-settings .form-table textarea {
+    min-height: 80px;
+}
+
+/* Company logo upload */
+.company-logo-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.company-logo-preview {
+    max-width: 100px;
+    max-height: 60px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background: #fff;
+}
+
+/* Tab navigation */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    position: relative;
+}
+
+.nav-tab.nav-tab-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #2271b1;
+}
+
+/* Success/Error notices */
+.woodmart-invoices-notice {
+    padding: 12px;
+    margin: 15px 0;
+    border-left: 4px solid;
+    background: #fff;
+}
+
+.woodmart-invoices-notice.success {
+    border-color: #46b450;
+    color: #155724;
+    background-color: #d4edda;
+}
+
+.woodmart-invoices-notice.error {
+    border-color: #dc3232;
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+/* Button states */
+.button.generating {
+    position: relative;
+    color: transparent !important;
+}
+
+.button.generating::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Order actions column styling */
+.wp-list-table .column-wc_actions .woodmart-invoice-actions {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.wp-list-table .column-wc_actions .woodmart-invoice-actions a {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 2px;
+}
+
+.wp-list-table .column-wc_actions .woodmart-invoice-actions a.pdf-invoice {
+    background: #dc3232;
+    color: #fff;
+}
+
+.wp-list-table .column-wc_actions .woodmart-invoice-actions a.ubl-invoice {
+    background: #0073aa;
+    color: #fff;
+}
+
+.wp-list-table .column-wc_actions .woodmart-invoice-actions a.packing-slip {
+    background: #46b450;
+    color: #fff;
+}
+
+.wp-list-table .column-wc_actions .woodmart-invoice-actions a:hover {
+    opacity: 0.8;
+}
+
+/* Settings form styling */
+.woodmart-invoices-settings-form .submit {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* Email attachment settings */
+.email-attachment-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.email-attachment-options label {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.email-attachment-options label:hover {
+    background: #f0f0f0;
+}
+
+.email-attachment-options input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Template preview */
+.template-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.template-preview img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .woodmart-invoices-actions .button {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .email-attachment-options {
+        grid-template-columns: 1fr;
+    }
+
+    .company-logo-upload {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Invoice meta box in order sidebar */
+.woodmart-invoices-meta-box {
+    padding: 10px 0;
+}
+
+.woodmart-invoices-meta-box .button {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.woodmart-invoices-meta-box .button:last-child {
+    margin-bottom: 0;
+}
