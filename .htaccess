@@ -1,0 +1,25 @@
+# Protect plugin files
+<Files *.php>
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files woodmart-invoices.php>
+Order Allow,Deny
+Allow from all
+</Files>
+
+# Protect sensitive files
+<FilesMatch "\.(json|lock|md)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+# Protect directories
+Options -Indexes
+
+# Allow access to CSS and JS files
+<FilesMatch "\.(css|js)$">
+Order Allow,Deny
+Allow from all
+</FilesMatch> 
