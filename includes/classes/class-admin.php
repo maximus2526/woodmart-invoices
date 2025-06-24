@@ -75,9 +75,6 @@ class Invoices_Admin {
 				<a href="?page=woodmart-invoices&tab=packing-slips" class="nav-tab <?php echo 'packing-slips' === $active_tab ? 'nav-tab-active' : ''; ?>">
 					<?php esc_html_e( 'Packing Slips', 'woodmart-invoices' ); ?>
 				</a>
-				<a href="?page=woodmart-invoices&tab=email-attachments" class="nav-tab <?php echo 'email-attachments' === $active_tab ? 'nav-tab-active' : ''; ?>">
-					<?php esc_html_e( 'Email Attachments', 'woodmart-invoices' ); ?>
-				</a>
 			</nav>
 
 			<form method="post" action="options.php">
@@ -90,9 +87,6 @@ class Invoices_Admin {
 						break;
 					case 'packing-slips':
 						$this->render_packing_slips_tab();
-						break;
-					case 'email-attachments':
-						$this->render_email_attachments_tab();
 						break;
 					default:
 						$this->render_general_tab();
@@ -151,7 +145,9 @@ class Invoices_Admin {
 	 * @return void
 	 */
 	private function render_invoices_tab() {
-		$settings = get_option( 'woodmart_invoices_settings', array() );
+		$settings           = get_option( 'woodmart_invoices_settings', array() );
+		$available_emails   = $this->get_available_wc_emails();
+		$attach_invoices_to = $settings['attach_invoices_to'] ?? array();
 		?>
 		<table class="form-table">
 			<tr>
@@ -174,47 +170,6 @@ class Invoices_Admin {
 					</label>
 				</td>
 			</tr>
-		</table>
-		<?php
-	}
-
-	/**
-	 * Render packing slips tab.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	private function render_packing_slips_tab() {
-		$settings = get_option( 'woodmart_invoices_settings', array() );
-		?>
-		<table class="form-table">
-			<tr>
-				<th scope="row"><?php esc_html_e( 'Enable Packing Slips', 'woodmart-invoices' ); ?></th>
-				<td>
-					<label>
-						<input type="hidden" name="woodmart_invoices_settings[packing_slips_enabled]" value="no" />
-						<input type="checkbox" name="woodmart_invoices_settings[packing_slips_enabled]" value="yes" <?php checked( $settings['packing_slips_enabled'] ?? '', 'yes' ); ?> />
-						<?php esc_html_e( 'Generate packing slips', 'woodmart-invoices' ); ?>
-					</label>
-				</td>
-			</tr>
-		</table>
-		<?php
-	}
-
-	/**
-	 * Render email attachments tab.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	private function render_email_attachments_tab() {
-		$settings                = get_option( 'woodmart_invoices_settings', array() );
-		$available_emails        = $this->get_available_wc_emails();
-		$attach_invoices_to      = $settings['attach_invoices_to'] ?? array();
-		$attach_packing_slips_to = $settings['attach_packing_slips_to'] ?? array();
-		?>
-		<table class="form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Attach PDF Invoices to Emails', 'woodmart-invoices' ); ?></th>
 				<td>
@@ -230,8 +185,34 @@ class Invoices_Admin {
 					<?php endforeach; ?>
 				</td>
 			</tr>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Render packing slips tab.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	private function render_packing_slips_tab() {
+		$settings                = get_option( 'woodmart_invoices_settings', array() );
+		$available_emails        = $this->get_available_wc_emails();
+		$attach_packing_slips_to = $settings['attach_packing_slips_to'] ?? array();
+		?>
+		<table class="form-table">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Attach Packing Slips to Emails', 'woodmart-invoices' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Enable Packing Slips', 'woodmart-invoices' ); ?></th>
+				<td>
+					<label>
+						<input type="hidden" name="woodmart_invoices_settings[packing_slips_enabled]" value="no" />
+						<input type="checkbox" name="woodmart_invoices_settings[packing_slips_enabled]" value="yes" <?php checked( $settings['packing_slips_enabled'] ?? '', 'yes' ); ?> />
+						<?php esc_html_e( 'Generate packing slips', 'woodmart-invoices' ); ?>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Attach Packing Slips PDF to Emails', 'woodmart-invoices' ); ?></th>
 				<td>
 					<?php foreach ( $available_emails as $email_id => $email_data ) : ?>
 						<label style="display: block; margin-bottom: 5px;">
