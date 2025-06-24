@@ -92,6 +92,9 @@ class Invoices_Main {
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'init', array( $this, 'register_custom_order_statuses' ) );
 		add_filter( 'wc_order_statuses', array( $this, 'add_custom_order_statuses' ) );
+		
+		// Add hook to trigger shipped order email when status changes
+		add_action( 'woocommerce_order_status_changed', array( $this, 'trigger_shipped_order_email' ), 10, 4 );
 	}
 
 	/**
@@ -220,5 +223,21 @@ class Invoices_Main {
 		$email_classes['WC_Shipped_Order_Email'] = new WC_Shipped_Order_Email();
 
 		return $email_classes;
+	}
+
+	/**
+	 * Trigger shipped order email when status changes.
+	 *
+	 * @since 1.0.0
+	 * @param int      $order_id   Order ID.
+	 * @param string   $status     Old order status.
+	 * @param string   $new_status New order status.
+	 * @param WC_Order $order      Order object.
+	 * @return void
+	 */
+	public function trigger_shipped_order_email( $order_id, $status, $new_status, $order ) {
+		if ( 'shipped' === $new_status ) {
+			do_action( 'woocommerce_order_status_shipped_notification', $order_id, $order );
+		}
 	}
 }

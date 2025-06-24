@@ -58,6 +58,10 @@ class Invoices_Packing_Slip_Generator extends Invoices_Invoice_Generator {
 	 * @return string
 	 */
 	private function generate_html( $order_data ) {
+		$company = $this->get_company_info();
+		$order = $order_data;
+		$packing_slip_date = \current_time( 'Y-m-d' );
+		$document_title = \__( 'Packing Slip', 'woodmart-invoices' );
 		ob_start();
 		include WOODMART_INVOICES_PLUGIN_DIR . 'templates/packing-clips/default.php';
 		return ob_get_clean();
