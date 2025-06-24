@@ -3,11 +3,11 @@
 /**
  * Invoice generator base class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );

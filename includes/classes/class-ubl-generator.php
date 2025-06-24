@@ -3,11 +3,13 @@
 /**
  * UBL generator class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
+
+use Sabre\Xml\Writer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -58,11 +60,11 @@ class Invoices_Ubl_Generator extends Invoices_Invoice_Generator {
 	 * @return string
 	 */
 	private function generate_xml( $order_data ) {
-		if ( ! class_exists( '\Sabre\Xml\Writer' ) ) {
+		if ( ! class_exists( 'Writer' ) ) {
 			require_once WOODMART_INVOICES_PLUGIN_DIR . 'vendor/autoload.php';
 		}
 
-		$writer = new \Sabre\Xml\Writer();
+		$writer = new Writer();
 		$writer->openMemory();
 		$writer->setIndent( true );
 		$writer->startDocument( '1.0', 'UTF-8' );

@@ -7,6 +7,8 @@
  * @since 1.0.0
  */
 
+namespace WoodMart\Invoices;
+
 // Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -16,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * WooCommerce Shipped Order Email class.
  *
  * @since 1.0.0
- * @extends WC_Email
+ * @extends \WC_Email
  */
-class WC_Shipped_Order_Email extends WC_Email {
+class WC_Shipped_Order_Email extends \WC_Email {
 
 	/**
 	 * Constructor.
@@ -71,8 +73,8 @@ class WC_Shipped_Order_Email extends WC_Email {
 	 * Trigger the sending of this email.
 	 *
 	 * @since 1.0.0
-	 * @param int      $order_id The order ID.
-	 * @param WC_Order $order Order object.
+	 * @param int       $order_id The order ID.
+	 * @param \WC_Order $order Order object.
 	 * @return void
 	 */
 	public function trigger( $order_id, $order = false ) {
@@ -213,5 +215,21 @@ class WC_Shipped_Order_Email extends WC_Email {
 		$attachments = apply_filters( 'woocommerce_email_attachments', $attachments, $this->id, $this->object );
 
 		return $attachments;
+	}
+
+	/**
+	 * Prevent cloning.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __clone() {
+	}
+
+	/**
+	 * Prevent unserializing.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
 	}
 }

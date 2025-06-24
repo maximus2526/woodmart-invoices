@@ -3,11 +3,11 @@
 /**
  * Singleton pattern class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -55,7 +55,7 @@ class Invoices_Singleton {
 	 *
 	 * @since 1.0.0
 	 */
-	private function __clone() {
+	public function __clone() {
 	}
 
 	/**
@@ -64,6 +64,14 @@ class Invoices_Singleton {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+	}
+
+	/**
+	 * Prevent unserializing.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
 	}
 
 	/**

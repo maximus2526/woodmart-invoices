@@ -3,11 +3,11 @@
 /**
  * Main plugin class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -44,6 +44,7 @@ class Invoices_Main {
 	public function __construct() {
 		$this->general_files_include();
 		$this->register_classes();
+		$this->register_email_classes();
 		$this->add_hooks();
 	}
 
@@ -92,7 +93,7 @@ class Invoices_Main {
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'init', array( $this, 'register_custom_order_statuses' ) );
 		add_filter( 'wc_order_statuses', array( $this, 'add_custom_order_statuses' ) );
-		
+
 		// Add hook to trigger shipped order email when status changes
 		add_action( 'woocommerce_order_status_changed', array( $this, 'trigger_shipped_order_email' ), 10, 4 );
 	}
@@ -179,7 +180,6 @@ class Invoices_Main {
 				'classes/class-woocommerce',
 				'classes/class-ajax',
 				'classes/class-invoices-email-attachments',
-				'emails/class-shipped-order-email',
 			)
 		);
 
@@ -189,11 +189,6 @@ class Invoices_Main {
 		// Initialize email attachments.
 		if ( isset( $registry->email_attachments ) ) {
 			$registry->email_attachments->init();
-		}
-
-		// Add WooCommerce related hooks.
-		if ( woodmart_woocommerce_installed() ) {
-			$this->register_email_classes();
 		}
 
 		// Hook into WooCommerce init.
@@ -219,9 +214,8 @@ class Invoices_Main {
 	 * @return array Modified email classes.
 	 */
 	public function add_email_classes( $email_classes ) {
-		// Add our custom shipped order email class
-		$email_classes['WC_Shipped_Order_Email'] = new WC_Shipped_Order_Email();
-
+		require_once WOODMART_INVOICES_PLUGIN_DIR . 'includes/emails/class-shipped-order-email.php';
+		$email_classes['WoodMart\Invoices\WC_Shipped_Order_Email'] = new WC_Shipped_Order_Email();
 		return $email_classes;
 	}
 
@@ -236,8 +230,24 @@ class Invoices_Main {
 	 * @return void
 	 */
 	public function trigger_shipped_order_email( $order_id, $status, $new_status, $order ) {
-		if ( 'shipped' === $new_status ) {
+		if ( 'wc-shipped' === $new_status ) {
 			do_action( 'woocommerce_order_status_shipped_notification', $order_id, $order );
 		}
+	}
+
+	/**
+	 * Prevent cloning.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __clone() {
+	}
+
+	/**
+	 * Prevent unserializing.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
 	}
 }

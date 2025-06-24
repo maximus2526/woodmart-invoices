@@ -3,11 +3,11 @@
 /**
  * WooCommerce integration class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -76,7 +76,7 @@ class Invoices_WooCommerce {
 	 * Order meta box content.
 	 *
 	 * @since 1.0.0
-	 * @param WP_Post|WC_Order $post_or_order Order post object or WC_Order object.
+	 * @param \WP_Post|\WC_Order $post_or_order Order post object or WC_Order object.
 	 * @return void
 	 */
 	public function order_meta_box_content( $post_or_order ) {
@@ -118,5 +118,21 @@ class Invoices_WooCommerce {
 			<?php endif; ?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Prevent cloning.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __clone() {
+	}
+
+	/**
+	 * Prevent unserializing.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
 	}
 }

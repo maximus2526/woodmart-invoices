@@ -137,7 +137,7 @@ Documents are automatically generated and attached to emails based on your setti
 ### Programmatic Access
 ```php
 // Get Registry instance
-$registry = XTS_PLUGIN\Invoices_Registry::getInstance();
+$registry = WoodMart\Invoices\Invoices_Registry::getInstance();
 
 // Generate PDF
 $pdf_generator = $registry->pdf_generator;

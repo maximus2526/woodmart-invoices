@@ -3,11 +3,11 @@
 /**
  * Registry helper class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -134,7 +134,7 @@ class Invoices_Registry {
 		if ( ! isset( $this->known_objects[ $obj ] ) ) {
 			try {
 				$this->save_object( $obj );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				echo esc_html( $e->getTraceAsString() );
 			}
 		}
@@ -161,7 +161,7 @@ class Invoices_Registry {
 		$class_name_parts = array_map( 'ucfirst', $class_name_parts );
 		$formatted_name   = implode( '_', $class_name_parts );
 
-		$objname = 'XTS_PLUGIN\\Invoices_' . $formatted_name;
+		$objname = 'WoodMart\\Invoices\\Invoices_' . $formatted_name;
 
 		if ( is_string( $obj ) && class_exists( $objname ) ) {
 			if ( method_exists( $objname, 'get_instance' ) ) {
@@ -184,19 +184,28 @@ class Invoices_Registry {
 	}
 
 	/**
+	 * Prevent unserializing.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
+		trigger_error( 'Unserializing is not allowed.', E_USER_ERROR );
+	}
+
+	/**
 	 * Initialize all classes.
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
 	private function init_classes() {
-		$this->pdf_generator           = Invoices_Pdf_Generator::get_instance();
-		$this->ubl_generator           = Invoices_Ubl_Generator::get_instance();
-		$this->packing_slip_generator  = Invoices_Packing_Slip_Generator::get_instance();
-		$this->invoice_generator       = Invoices_Invoice_Generator::get_instance();
-		$this->admin                   = new Invoices_Admin();
-		$this->woocommerce             = new Invoices_WooCommerce();
-		$this->ajax                    = new Invoices_Ajax();
-		$this->email_attachments       = Invoices_Email_Attachments::get_instance();
+		$this->pdf_generator          = Invoices_Pdf_Generator::get_instance();
+		$this->ubl_generator          = Invoices_Ubl_Generator::get_instance();
+		$this->packing_slip_generator = Invoices_Packing_Slip_Generator::get_instance();
+		$this->invoice_generator      = Invoices_Invoice_Generator::get_instance();
+		$this->admin                  = new Invoices_Admin();
+		$this->woocommerce            = new Invoices_WooCommerce();
+		$this->ajax                   = new Invoices_Ajax();
+		$this->email_attachments      = Invoices_Email_Attachments::get_instance();
 	}
 }

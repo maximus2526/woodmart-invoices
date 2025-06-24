@@ -3,11 +3,11 @@
 /**
  * Packing slip generator class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -58,10 +58,10 @@ class Invoices_Packing_Slip_Generator extends Invoices_Invoice_Generator {
 	 * @return string
 	 */
 	private function generate_html( $order_data ) {
-		$company = $this->get_company_info();
-		$order = $order_data;
-		$packing_slip_date = \current_time( 'Y-m-d' );
-		$document_title = \__( 'Packing Slip', 'woodmart-invoices' );
+		$company           = $this->get_company_info();
+		$order             = $order_data;
+		$packing_slip_date = current_time( 'Y-m-d' );
+		$document_title    = __( 'Packing Slip', 'woodmart-invoices' );
 		ob_start();
 		include WOODMART_INVOICES_PLUGIN_DIR . 'templates/packing-clips/default.php';
 		return ob_get_clean();
@@ -76,7 +76,7 @@ class Invoices_Packing_Slip_Generator extends Invoices_Invoice_Generator {
 	 * @return string|false File path or false on failure.
 	 */
 	private function generate_pdf( $html, $order_id ) {
-		if ( ! class_exists( '\Dompdf\Dompdf' ) ) {
+		if ( ! class_exists( 'Dompdf\Dompdf' ) ) {
 			require_once WOODMART_INVOICES_PLUGIN_DIR . 'vendor/autoload.php';
 		}
 

@@ -3,11 +3,11 @@
 /**
  * Email attachments handler class.
  *
- * @package XTS_PLUGIN
+ * @package WoodMart_Invoices
  * @since 1.0.0
  */
 
-namespace XTS_PLUGIN;
+namespace WoodMart\Invoices;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'No direct script access allowed' );
@@ -33,7 +33,7 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 		}
 
 		// Hook into WooCommerce email attachments.
-		\add_filter( 'woocommerce_email_attachments', array( $this, 'add_attachments' ), 10, 3 );
+		add_filter( 'woocommerce_email_attachments', array( $this, 'add_attachments' ), 10, 3 );
 
 		// Mark as initialized.
 		$this->set_initialized();
@@ -56,8 +56,8 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 			return $attachments;
 		}
 
-		$settings = \get_option( 'woodmart_invoices_settings', array() );
-		$attach_invoices_to = $settings['attach_invoices_to'] ?? array();
+		$settings                = get_option( 'woodmart_invoices_settings', array() );
+		$attach_invoices_to      = $settings['attach_invoices_to'] ?? array();
 		$attach_packing_slips_to = $settings['attach_packing_slips_to'] ?? array();
 
 		// Add PDF invoices.
@@ -84,7 +84,7 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 	 *
 	 * @since 1.0.0
 	 * @param mixed $object Email object.
-	 * @return \WC_Order|false Order object or false.
+	 * @return WC_Order|false Order object or false.
 	 */
 	private function get_order_from_object( $object ) {
 		// If it's already an order object.
@@ -94,17 +94,17 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 
 		// If it's an order ID.
 		if ( is_numeric( $object ) ) {
-			return \wc_get_order( $object );
+			return wc_get_order( $object );
 		}
 
 		// If it's an array with order_id key.
 		if ( is_array( $object ) && isset( $object['order_id'] ) ) {
-			return \wc_get_order( $object['order_id'] );
+			return wc_get_order( $object['order_id'] );
 		}
 
 		// If it's an object with get_id method.
 		if ( is_object( $object ) && method_exists( $object, 'get_id' ) ) {
-			return \wc_get_order( $object->get_id() );
+			return wc_get_order( $object->get_id() );
 		}
 
 		return false;
@@ -114,7 +114,7 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 	 * Get invoice attachment for order.
 	 *
 	 * @since 1.0.0
-	 * @param \WC_Order $order Order object.
+	 * @param WC_Order $order Order object.
 	 * @return string|false File path or false.
 	 */
 	private function get_invoice_attachment( $order ) {
@@ -146,7 +146,7 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 	 * Get packing slip attachment for order.
 	 *
 	 * @since 1.0.0
-	 * @param \WC_Order $order Order object.
+	 * @param WC_Order $order Order object.
 	 * @return string|false File path or false.
 	 */
 	private function get_packing_slip_attachment( $order ) {
@@ -173,4 +173,4 @@ class Invoices_Email_Attachments extends Invoices_Singleton {
 
 		return false;
 	}
-} 
+}
