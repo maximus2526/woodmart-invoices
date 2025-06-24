@@ -419,6 +419,11 @@ class Invoices_Admin {
 	private function get_available_wc_emails() {
 		$emails = array();
 
+		$emails['customer_shipped_order'] = array(
+			'title'       => __( 'Shipped Order', 'woodmart-invoices' ),
+			'description' => __( 'Sent to customers when their orders are shipped', 'woodmart-invoices' ),
+		);
+
 		// Standard WooCommerce emails
 		$standard_emails = array(
 			'customer_processing_order' => array(

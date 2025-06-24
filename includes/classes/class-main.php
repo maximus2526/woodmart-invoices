@@ -197,4 +197,28 @@ class Invoices_Main {
 		add_action( 'init', array( $this, 'register_custom_order_statuses' ) );
 		add_filter( 'wc_order_statuses', array( $this, 'add_custom_order_statuses' ) );
 	}
+
+	/**
+	 * Register custom email classes with WooCommerce.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function register_email_classes() {
+		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_classes' ) );
+	}
+
+	/**
+	 * Add custom email classes to WooCommerce.
+	 *
+	 * @since 1.0.0
+	 * @param array $email_classes Existing email classes.
+	 * @return array Modified email classes.
+	 */
+	public function add_email_classes( $email_classes ) {
+		// Add our custom shipped order email class
+		$email_classes['WC_Shipped_Order_Email'] = new WC_Shipped_Order_Email();
+
+		return $email_classes;
+	}
 }
