@@ -44,7 +44,6 @@ class Invoices_Main {
 	public function __construct() {
 		$this->general_files_include();
 		$this->register_classes();
-		$this->register_email_classes();
 		$this->add_hooks();
 	}
 
@@ -91,11 +90,6 @@ class Invoices_Main {
 	 */
 	private function add_hooks() {
 		add_action( 'init', array( $this, 'load_textdomain' ) );
-		add_action( 'init', array( $this, 'register_custom_order_statuses' ) );
-		add_filter( 'wc_order_statuses', array( $this, 'add_custom_order_statuses' ) );
-
-		// Add hook to trigger shipped order email when status changes
-		add_action( 'woocommerce_order_status_changed', array( $this, 'trigger_shipped_order_email' ), 10, 4 );
 	}
 
 	/**
@@ -110,38 +104,6 @@ class Invoices_Main {
 			false,
 			dirname( WOODMART_INVOICES_PLUGIN_BASENAME ) . '/languages'
 		);
-	}
-
-	/**
-	 * Register custom order statuses.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function register_custom_order_statuses() {
-		register_post_status(
-			'wc-shipped',
-			array(
-				'label'                     => _x( 'Shipped', 'Order status', 'woodmart-invoices' ),
-				'public'                    => true,
-				'exclude_from_search'       => false,
-				'show_in_admin_all_list'    => true,
-				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Shipped (%s)', 'Shipped (%s)', 'woodmart-invoices' ),
-			)
-		);
-	}
-
-	/**
-	 * Add custom order statuses to WooCommerce.
-	 *
-	 * @since 1.0.0
-	 * @param array $order_statuses Existing order statuses.
-	 * @return array
-	 */
-	public function add_custom_order_statuses( $order_statuses ) {
-		$order_statuses['wc-shipped'] = _x( 'Shipped', 'Order status', 'woodmart-invoices' );
-		return $order_statuses;
 	}
 
 	/**
@@ -189,49 +151,6 @@ class Invoices_Main {
 		// Initialize email attachments.
 		if ( isset( $registry->email_attachments ) ) {
 			$registry->email_attachments->init();
-		}
-
-		// Hook into WooCommerce init.
-		add_action( 'init', array( $this, 'register_custom_order_statuses' ) );
-		add_filter( 'wc_order_statuses', array( $this, 'add_custom_order_statuses' ) );
-	}
-
-	/**
-	 * Register custom email classes with WooCommerce.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function register_email_classes() {
-		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_classes' ) );
-	}
-
-	/**
-	 * Add custom email classes to WooCommerce.
-	 *
-	 * @since 1.0.0
-	 * @param array $email_classes Existing email classes.
-	 * @return array Modified email classes.
-	 */
-	public function add_email_classes( $email_classes ) {
-		require_once WOODMART_INVOICES_PLUGIN_DIR . 'includes/emails/class-shipped-order-email.php';
-		$email_classes['WoodMart\Invoices\WC_Shipped_Order_Email'] = new WC_Shipped_Order_Email();
-		return $email_classes;
-	}
-
-	/**
-	 * Trigger shipped order email when status changes.
-	 *
-	 * @since 1.0.0
-	 * @param int      $order_id   Order ID.
-	 * @param string   $status     Old order status.
-	 * @param string   $new_status New order status.
-	 * @param WC_Order $order      Order object.
-	 * @return void
-	 */
-	public function trigger_shipped_order_email( $order_id, $status, $new_status, $order ) {
-		if ( 'wc-shipped' === $new_status ) {
-			do_action( 'woocommerce_order_status_shipped_notification', $order_id, $order );
 		}
 	}
 
